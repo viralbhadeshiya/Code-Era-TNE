@@ -1,0 +1,24 @@
+{
+  "name": "code-era-tne",
+  "version": "1.0.0",
+  "description": "Best practice jump start for express-node tech stack",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node lib/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install",
+    "format": "npx prettier --write \"src/**/*.js\"",
+    "lint": "npx eslint \"{src,apps,libs,test}/**/*.js\" --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viralbhadeshiya/Code-Era-TNE.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/viralbhadeshiya/Code-Era-TNE/issues"
+  },
+  "homepage": "https://github.com/viralbhadeshiya/Code-Era-TNE#readme"
+}
