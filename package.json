@@ -20,5 +20,18 @@
   "bugs": {
     "url": "https://github.com/viralbhadeshiya/Code-Era-TNE/issues"
   },
-  "homepage": "https://github.com/viralbhadeshiya/Code-Era-TNE#readme"
+  "homepage": "https://github.com/viralbhadeshiya/Code-Era-TNE#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.7"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "npm run lint",
+      "npm run format"
+    ]
+  }
 }
