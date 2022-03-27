@@ -2,7 +2,7 @@
 Best practice jump start for express-node tech stack
 
 # stunning-node-express
-Best optimize way to create node app with express server with JS
+Best optimize way to create node app with express server with TS
 
 ## Tech Used
 
