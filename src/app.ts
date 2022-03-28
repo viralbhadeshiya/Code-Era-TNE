@@ -9,7 +9,7 @@ import { Logger } from 'pino';
 // import { dbConnection } from './databases/mongoDbConnection.js';
 // import Config from './environment/index.js';
 // import { errorMiddleware } from './middleware/error.middleware.js';
-// import { custonLogger, pinoFormateConfig } from './services/logger.js';
+import { pinoFormateConfig } from './services/logger';
 
 const BODY_PAYLOAD_LIMIT = 100 * 100000; // 1 MB
 
@@ -25,7 +25,7 @@ class App {
     // Intializing app configs
     constructor(routes) {
         this.app = express();
-        // this.logger = pinoFormateConfig;
+        this.logger = pinoFormateConfig;
         // this.port = Config.APP_PORT;
         // this.env = Config.NODE_ENV;
 
