@@ -4,9 +4,9 @@ import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
 import hpp from 'hpp';
-// import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import { Logger } from 'pino';
-// import { dbConnection } from './databases/mongoDbConnection.js';
+import { dbConnection } from './databases/mongoDbConnection';
 // import Config from './environment/index.js';
 // import { errorMiddleware } from './middleware/error.middleware.js';
 import { pinoFormateConfig } from './services/logger';
@@ -46,13 +46,13 @@ class App {
     }
 
     databaseConnection() {
-        // mongoose.connection.on('connected', () => {
-        //     this.logger.info('🔥 DATABASE - Connected');
-        // });
-        // mongoose.connection.on('error', err => {
-        //     this.logger.error(`DATABASE - Error:${err}`);
-        // });
-        // mongoose.connect(dbConnection.url, dbConnection.options);
+        mongoose.connection.on('connected', () => {
+            this.logger.info('🔥 DATABASE - Connected');
+        });
+        mongoose.connection.on('error', err => {
+            this.logger.error(`DATABASE - Error:${err}`);
+        });
+        mongoose.connect(dbConnection.url, dbConnection.options);
     }
 
     initializeRoutes(routes) {
