@@ -7,9 +7,9 @@ import hpp from 'hpp';
 import mongoose from 'mongoose';
 import { Logger } from 'pino';
 import { dbConnection } from './databases/mongoDbConnection';
-// import Config from './environment/index.js';
+import Config from './environment/index';
 // import { errorMiddleware } from './middleware/error.middleware.js';
-import { pinoFormateConfig } from './services/logger';
+import { customLogger, pinoFormateConfig } from './services/logger';
 
 const BODY_PAYLOAD_LIMIT = 100 * 100000; // 1 MB
 
@@ -26,8 +26,8 @@ class App {
     constructor(routes) {
         this.app = express();
         this.logger = pinoFormateConfig;
-        // this.port = Config.APP_PORT;
-        // this.env = Config.NODE_ENV;
+        this.port = Config.APP_PORT;
+        this.env = Config.NODE_ENV;
 
         this.databaseConnection();
         this.initializeMiddlewares();
@@ -92,7 +92,7 @@ class App {
         this.app.use(hpp());
 
         // Custom logger config
-        // this.app.use(custonLogger[this.env]);
+        this.app.use(customLogger[this.env]);
     }
 
     // initializeErrorHandling() {
