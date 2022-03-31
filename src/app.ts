@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 import { Logger } from 'pino';
 import { dbConnection } from './databases/mongoDbConnection';
 import Config from './environment/index';
-// import { errorMiddleware } from './middleware/error.middleware.js';
+import { errorMiddleware } from './middleware/error.middleware';
 import { customLogger, pinoFormateConfig } from './services/logger';
 
 const BODY_PAYLOAD_LIMIT = 100 * 100000; // 1 MB
@@ -32,7 +32,7 @@ class App {
         this.databaseConnection();
         this.initializeMiddlewares();
         this.initializeRoutes(routes);
-        // this.initializeErrorHandling();
+        this.initializeErrorHandling();
     }
 
     // Class Methods
@@ -95,9 +95,9 @@ class App {
         this.app.use(customLogger[this.env]);
     }
 
-    // initializeErrorHandling() {
-    //     this.app.use(errorMiddleware);
-    // }
+    initializeErrorHandling() {
+        this.app.use(errorMiddleware);
+    }
 }
 
 export default App;
