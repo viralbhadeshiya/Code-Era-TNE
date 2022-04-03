@@ -31,7 +31,7 @@ export default class HttpException extends Error {
 
     private meta: any;
 
-    constructor(statusCode, message, errorCode, err, meta) {
+    constructor(statusCode: number, message: string, errorCode: string, err: any, meta?: any) {
         super(message);
         this.statusCode = statusCode;
         this.error = getErrorFromCode(statusCode);
