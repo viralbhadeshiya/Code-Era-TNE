@@ -1,3 +1,4 @@
+import { Request, Response } from 'express';
 import { USER_ERROR_CODES } from '../components/user/user.errors';
 import { User } from '../components/user/user.model';
 import HttpException from '../utils/error.utils';
@@ -7,7 +8,7 @@ const AUTH_ERROR_CODES = {
 };
 
 class Authenticate {
-    authorize(req, res, next) {
+    authorize(req: Request, res: Response, next) {
         const token = req.header('authorization');
         if (token) {
             User.findByToken(token).then(user => {
