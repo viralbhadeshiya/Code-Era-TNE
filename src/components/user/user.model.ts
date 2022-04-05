@@ -1,6 +1,6 @@
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import mongoose from 'mongoose';
+import mongoose, { Document, Model } from 'mongoose';
 import Config from '../../environment/index';
 import HttpException from '../../utils/error.utils';
 import { USER_ERROR_CODES } from './user.errors';
@@ -65,6 +65,30 @@ export const signInUserSchema = {
 // ----------------------------------------------------------------------------
 // User Schema for store in DB
 // ----------------------------------------------------------------------------
+
+export const planEnum = ['free', 'basic', 'Hero', 'King', 'God'] as const;
+export type planType = typeof planEnum[number];
+export interface IUserDocument extends Document {
+    firstName: string;
+    lastName: string;
+    emailId: string;
+    planType: planType;
+    mobileNo: string;
+    password: string;
+    accessToken: string;
+    profilePicture: string;
+}
+
+export interface IUser extends IUserDocument {
+    getAuthToken(): Promise<IUser>;
+}
+
+export interface IUserModel extends Model<IUser> {
+    findByToken(token: string): Promise<void | IUser>;
+
+    findByCredentials(email: string, password: string): Promise<void | IUser>;
+}
+
 const userSchema = new Schema({
     firstName: {
         type: Schema.Types.String,
@@ -74,7 +98,7 @@ const userSchema = new Schema({
     emailId: Schema.Types.String,
     planType: {
         type: Schema.Types.String,
-        enum: ['free', 'basic', 'Hero', 'King', 'God'],
+        enum: planEnum,
         required: true,
     },
     mobileNo: Schema.Types.String,
@@ -160,5 +184,5 @@ userSchema.pre('save', function (next) {
 });
 
 userSchema.index({ emailId: 1 }, { unique: true });
-export const User = model('user', userSchema);
+export const User: IUserModel = model<IUser, IUserModel>('user', userSchema);
 export default User;
