@@ -12,4 +12,5 @@ export const USER_ERROR_CODES = {
 
     // User DAL error codes
     CREATE_USER_UNHANDLED_IN_DB: 'Something went wrong while creating new user',
+    UPDATE_USER_UNHANDLED_IN_DB: 'Something went wrong while updating user',
 };
