@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
+import HttpException from '../../utils/error.utils';
 import { createNewUser } from './user.DAL';
-import { IUser } from './user.model';
+import { USER_ERROR_CODES } from './user.errors';
+import User, { IUser } from './user.model';
 
 class UsersController {
     /**
@@ -27,6 +29,38 @@ class UsersController {
             // sendMail(user.emailId, req.log);
 
             return res.status(200).json({ _id: user._id });
+        } catch (err) {
+            return next(err);
+        }
+    }
+
+    /**
+     * Sign in user with credentials
+     * @param {Request} req => Express Request
+     * @param {Response} res => Express Repponse
+     * @param {NextFunction} next => Express next function
+     */
+    async signInUser(req, res, next) {
+        try {
+            // Validating body data
+            const { email, password } = req.body;
+            if (!email || !password) {
+                throw new HttpException(400, USER_ERROR_CODES.SIGN_IN_BAD_REQUEST, 'SIGN_IN_BAD_REQUEST', null);
+            }
+
+            // Finding user and validating data
+            const userData = await User.findByCredentials(email, password);
+            if (!userData) {
+                throw new HttpException(404, USER_ERROR_CODES.SIGN_IN_FAIL, 'SIGN_IN_FAIL', null);
+            }
+
+            const userToken = await userData.getAuthToken();
+            return res.status(200).json({
+                accessToken: userToken,
+                userId: userData._id,
+                userName: userData.firstName,
+                email: userData.emailId,
+            });
         } catch (err) {
             return next(err);
         }
