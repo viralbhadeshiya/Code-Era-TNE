@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import HttpException from '../../utils/error.utils';
-import { createNewUser } from './user.DAL';
+import { createNewUser, findUserById } from './user.DAL';
 import { USER_ERROR_CODES } from './user.errors';
 import User, { IUser } from './user.model';
 
@@ -61,6 +61,24 @@ class UsersController {
                 userName: userData.firstName,
                 email: userData.emailId,
             });
+        } catch (err) {
+            return next(err);
+        }
+    }
+
+    /**
+     * Get user profile of logged in user
+     * @param {Request} req => Express Request
+     * @param {Response} res => Express Repponse
+     * @param {NextFunction} next => Express next function
+     */
+    async getUsers(req, res, next) {
+        try {
+            // Get user data of logIn user
+            const userId = req.user._id;
+            const user = await findUserById(userId);
+
+            return res.status(200).json(user);
         } catch (err) {
             return next(err);
         }

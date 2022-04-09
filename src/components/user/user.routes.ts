@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { authenticateMiddleware } from '../../middleware/authentication.middleware';
 import { validateRequestMiddleware } from '../../middleware/error.middleware';
 // import { authenticateMiddleware } from '../../middleware/authentication.middleware';
 // import { validateRequestMiddleware } from '../../middleware/error.middleware';
@@ -21,15 +22,15 @@ class UsersRoute {
     }
 
     initializeRoutes() {
-        //         // No Auth router
+        // No Auth router
         this.router.post(`${this.path}`, validateRequestMiddleware(signUpUserSchema), this.userController.signUpUser);
         this.router.post(
             `${this.path}/signIn`,
             validateRequestMiddleware(signInUserSchema),
             this.userController.signInUser,
         );
-        //         // Auth Router
-        //         this.router.get(`${this.path}/me`, authenticateMiddleware.authorize, this.userController.getUsers);
+        // Auth Router
+        this.router.get(`${this.path}/me`, authenticateMiddleware.authorize, this.userController.getUsers);
         //         this.router.post(
         //             `${this.path}/profile`,
         //             authenticateMiddleware.authorize,
