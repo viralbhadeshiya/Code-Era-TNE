@@ -31,11 +31,6 @@ class UsersRoute {
         );
         // Auth Router
         this.router.get(`${this.path}/me`, authenticateMiddleware.authorize, this.userController.getUsers);
-        //         this.router.post(
-        //             `${this.path}/profile`,
-        //             authenticateMiddleware.authorize,
-        //             this.userController.updateProfilePicture,
-        //         );
     }
 }
 
